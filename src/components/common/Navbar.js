@@ -30,7 +30,7 @@ export default class Navbar extends Component {
   };
 
   GetUserName = () => {
-    return "Admin Admin";
+    return localStorage.userName;
   };
 
   Logout = () => {

@@ -6,9 +6,9 @@ export default class Home extends Component {
   };
   constructor(props) {
     super(props);
-    this.populateData = this.populateData.bind(this);
   }
   componentDidMount() {
+    var self = this;
     fetch("https://netdev.umkc.edu/intapps/murali/api/Contacts/", {
       method: "GET",
       headers: {
@@ -23,28 +23,15 @@ export default class Home extends Component {
         return response.json();
       })
       .then(data => {
-        this.setState({ contacts: data });
+        self.setState({ contacts: data });
       })
       .catch(function(error) {
         console.log(error);
       });
   }
-  populateData() {
-    this.state.contacts.map((listValue, index) => {
-      return (
-        <tr>
-          <td>{index + 1}</td>
-          <td>{listValue.FirstName}</td>
-          <td>{listValue.LastName}</td>
-          <td>{listValue.Email}</td>
-          <td>{listValue.Comment}</td>
-        </tr>
-      );
-    });
-  }
   render() {
     return (
-      <div>
+      <div className="container">
         <h3>Contact Us List</h3>
         <div className="table-responsive">
           <table className="table table-striped">
@@ -57,7 +44,19 @@ export default class Home extends Component {
                 <th>Comment</th>
               </tr>
             </thead>
-            <tbody>{this.populateData()}</tbody>
+            <tbody>
+              {this.state.contacts.map((listValue, index) => {
+                return (
+                  <tr key={listValue.Id}>
+                    <td>{index + 1}</td>
+                    <td>{listValue.FirstName}</td>
+                    <td>{listValue.LastName}</td>
+                    <td>{listValue.Email}</td>
+                    <td>{listValue.Comment}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </div>
       </div>
